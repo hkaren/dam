@@ -1,20 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import {Provider} from "react-redux";
 
-export default function App() {
+import MyApp from "./src/MyApp";
+import store from "./src/store/Index";
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
+//import AppGall from "./gall";
+
+
+const App: React.FC = () => {
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={store}>
+        <MyApp/>
+        <Toast />
+    </Provider>
+    // <AppGall />
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

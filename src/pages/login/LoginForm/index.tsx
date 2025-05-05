@@ -1,0 +1,203 @@
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import styles from './styles';
+import '../../../configs/i18n';
+import { useTranslation } from 'react-i18next';
+import axiosInstance from "../../../networking/api";
+import {FormData} from '../../../Interface';
+import {
+    MOBILE_API_PATH_REST, 
+    MOBILE_API_PATH_REST_AUTH_LOGIN,
+    MOBILE_APP_VERSION,
+    NAVIGATOR_STACK_SCREEN_HOME,
+    RESPONSE_CODE_ERROR_NOT_COMPATIBLE_VERSION,
+    RESPONSE_CODE_ERROR_UNKNOWN_MOBILE_DEVICE,
+    RESPONSE_CODE_SUCCESS
+} from '../../../utils/AppConstants';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch, useSelector } from 'react-redux';
+import { getPlatform, toast } from '../../../utils/StaticMethods';
+import { Loading } from '../../../components/loading/Loading';
+import MD5 from 'crypto-js/md5';
+
+const setToken = async (token: string): Promise<string | null> => {
+    try {
+        await AsyncStorage.setItem("token", token);
+        return null
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
+
+type RootStackParamList = {
+  Home: undefined;
+};
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+export const LoginForm = () => {
+    const { t } = useTranslation();
+    const navigation = useNavigation<NavigationProp>();
+    const dispatch = useDispatch()
+    const configStore = useSelector((store: any) => store.configStore)
+console.log(configStore, ' // configStore');
+
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const [url, setUrl] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState<FormData>({
+        login: '',
+        password: '',
+        passwordFake: ''
+    });
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
+    const doLogin = async () => {
+        console.log('doLogin start');
+
+        try {
+            if(data.login == '' || data.password == '' || url == ''){
+                toast('error', 'top', 'ERROR!', t('all_fields_are_required'));
+            } else {
+                setLoading(true);
+                const dataToSend = {
+                    pnToken: "",
+                    callerName: getPlatform(),
+                    callerVersion: MOBILE_APP_VERSION,
+                    depId: "",
+                    lang: "",
+                    login: data.login,
+                    password: MD5(data.password).toString(),
+                    location: {
+                        imei: '1234567890',
+                        latitude: '1234567890',
+                        longitude: '1234567890',
+                    }
+                };
+                console.log(MOBILE_API_PATH_REST + MOBILE_API_PATH_REST_AUTH_LOGIN);
+
+                let url_ = "http://10.27.41.84:8888/dgs3g_web";
+                if(!url_.endsWith('/')){
+                    url_ += '/';
+                }
+                
+                console.log(dataToSend, ' // dataToSend');
+                const response = await axiosInstance.post(url_ + MOBILE_API_PATH_REST_AUTH_LOGIN, dataToSend);
+                const result = response?.data?.result;
+                console.log(response?.data, ' // result');
+                
+                let message: string = '';
+                if(result?.code === RESPONSE_CODE_ERROR_NOT_COMPATIBLE_VERSION){
+                    message = t('incompatible_version1');
+                } else if(result?.code === RESPONSE_CODE_ERROR_UNKNOWN_MOBILE_DEVICE){
+                    message = t('unknown_device_login');
+                } else if(result?.code !== RESPONSE_CODE_SUCCESS){
+                    message = t('incorrect_user_details');
+                }
+                setLoading(false);
+
+                if(message){
+                    toast('error', 'top', 'ERROR!', result?.message);
+                } else {
+                    await setToken(response.data.token);
+                    dispatch({
+                        type: 'SET_CONFIG',
+                        payload:{
+                            isLogin: true,
+                            account: result?.userInfo,
+                            departments: result?.departments,
+                            permissions: result?.permissions,
+                            uniqueDBKey: result?.uniqueDBKey,
+                            uniqueKey: result?.uniqueKey,
+                            userDefaultHomePage: result?.userDefaultHomePage,
+                        }
+                    })
+                    navigation.navigate(NAVIGATOR_STACK_SCREEN_HOME);
+                }
+            }
+        } catch (e) {
+            console.log(e);
+            setLoading(false)
+        }
+    };
+
+    let onChangeData = (e: string, name: string) => {
+        data[name] = e;
+        setData({...data});
+    };
+
+    const DismissKeyboardView = ({ children }: { children: React.ReactNode }) => (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            {children}
+        </TouchableWithoutFeedback>
+    );
+
+    return (
+        <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+            <Image
+                source={require('../../../../assets/logo_v2.png')}
+                style={styles.logo}
+                resizeMode="contain"
+            />
+
+            <View style={styles.formContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder={t('login')}
+                    autoCapitalize="none"
+                    value={data.login}
+                    onChangeText={e => onChangeData(e, 'login')}
+                />
+
+                <TextInput
+                    style={styles.input}
+                    placeholder={t('password')}
+                    placeholderTextColor="#cdc7d4"
+                    value={data.passwordFake}
+                    textContentType="oneTimeCode"
+                    secureTextEntry
+                    autoCapitalize="none"
+                    onChangeText={e => {
+                        let passFake = ''
+                        for(let i = 0; i < e.length; i++) {
+                            passFake+='*'
+                        }
+                        let newPass = ''
+                        if(e.length > data.password.length){
+                            newPass = data.password + e[e.length-1]
+                        }else{
+                            newPass = data.password.slice(0, data.password.length - 1);
+                        }
+                        onChangeData(newPass, 'password')
+                        onChangeData(passFake, 'passwordFake')
+                    }}
+                />
+
+                <Text style={styles.label}>{t('urlDamarisRM')}</Text>
+                <TextInput
+                    style={styles.input}
+                    value={url}
+                    onChangeText={setUrl}
+                    autoCapitalize="none"
+                />
+
+                <TouchableOpacity style={styles.button} onPress={doLogin}>
+                    <Text style={styles.buttonText}>{t('connection')}</Text>
+                </TouchableOpacity>
+
+                <View style={styles.idContainer}>
+                    <Text style={styles.idLabel}>{t('providerId')}</Text>
+                    <Text style={styles.idValue}>5CE0307A-C968-4991-A819-DC591857DDF</Text>
+                </View>
+            </View>
+            <Loading visible={loading} />
+        </ScrollView>
+    );
+};
