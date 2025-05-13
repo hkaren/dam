@@ -1,5 +1,7 @@
 
 const initialState: any = {
+    profileDrawerActive: 1,
+    
     bottomHalfModal: false,
     bottomHalfModalData:{},
     createFormModal: false,
@@ -8,21 +10,12 @@ const initialState: any = {
     filterModalData: {},
     navigationGoBack: false,
     navigationGoBackData: {},
-    hideTab: false,
-    isLogin: false,
-    homeScrollDirection: '',
-    loadingSkeletonFlag: false,
-    loadingLogoFlag: false,
-    thisAccountId: null,
-    showGlobalHeader: true,
+    
+    /*showGlobalHeader: true,
     scrollDownUp: '',
     homeScrollEnd: false,
     profileDrawerActive: 1,
-    thisPageId: null,
-    drawerProfileModalVisible: true,
-    createPostData: null,
-    createNewPostData: null,
-    newPostKey: null,
+    thisPageId: null,*/
 };
 
 const configReducer = (state = initialState, action: any): any => {

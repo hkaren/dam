@@ -1,11 +1,15 @@
 //import * as Device from 'expo-device';
 import { Platform } from 'react-native';
 import Toast, { ToastPosition } from 'react-native-toast-message';
+import * as Application from 'expo-application';
 
-export const getDeviceId = async () => {
-    //const deviceId = await Device.getDeviceTypeAsync();
-    //console.log('Device ID:', deviceId, Device.manufacturer, Device.modelName);
-    return 'deviceId';
+export const getDeviceId = async (): Promise<string | null> => {
+    if (Platform.OS === 'android') {
+      return Application.getAndroidId();
+    } else if (Platform.OS === 'ios') {
+      return await Application.getIosIdForVendorAsync();
+    }
+    return null;
 };
 
 export const getLocation = () => {

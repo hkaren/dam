@@ -1,12 +1,14 @@
-export interface CustomerState {
-
+const initialState: any = {
+    isLogin: false,
+    account: {},
+    departments: {},
+    permissions: {},
+    uniqueDBKey: '',
+    uniqueKey: '',
+    userDefaultHomePage: '',
 }
 
-const initialState: CustomerState = {
-    cv: []
-};
-
-const customerReducer = (state: CustomerState = initialState, action: any): CustomerState => {
+const customerReducer = (state = initialState, action: any): any => {
     switch (action.type) {
         case 'SET_CUSTOMER':
             return {
@@ -16,7 +18,15 @@ const customerReducer = (state: CustomerState = initialState, action: any): Cust
         case 'SET_CLEAR_CUSTOMER':
             return {
                 ...state,
-                ...{cv: null},
+                ...{
+                    isLogin: false,
+                    account: {},
+                    departments: {},
+                    permissions: {},
+                    uniqueDBKey: '',
+                    uniqueKey: '',
+                    userDefaultHomePage: ''
+                },
             };
         default:
             return state;

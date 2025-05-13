@@ -13,6 +13,7 @@ export const NAVIGATOR_STACK_SCREEN_MESSAGES = "Messages";
 export const NAVIGATOR_STACK_SCREEN_HOME = "Home";
 export const NAVIGATOR_STACK_SCREEN_PROFILE = "Profile";
 export const NAVIGATOR_STACK_SCREEN_SETTINGS = "Settings";
+export const NAVIGATOR_STACK_SCREEN_LOGOUT = "Logout";
 
 // export const NAVIGATOR_STACK_SCREEN_REGISTER = "Register";
 // export const NAVIGATOR_STACK_SCREEN_FORGOT_PASSWORD = "ForgotPassword";

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, TouchableWithoutFeedback, Keyboard, ScrollView, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import styles from './styles';
@@ -18,9 +18,10 @@ import {
 } from '../../../utils/AppConstants';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlatform, toast } from '../../../utils/StaticMethods';
+import { getDeviceId, getPlatform, toast } from '../../../utils/StaticMethods';
 import { Loading } from '../../../components/loading/Loading';
 import MD5 from 'crypto-js/md5';
+import * as Location from 'expo-location';
 
 const setToken = async (token: string): Promise<string | null> => {
     try {
@@ -41,8 +42,9 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export const LoginForm = () => {
     const { t } = useTranslation();
     const navigation = useNavigation<NavigationProp>();
-    const dispatch = useDispatch()
-    const configStore = useSelector((store: any) => store.configStore)
+    const dispatch = useDispatch();
+    const configStore = useSelector((store: any) => store.configStore);
+    const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
 console.log(configStore, ' // configStore');
 
     const [login, setLogin] = useState('');
@@ -57,6 +59,19 @@ console.log(configStore, ' // configStore');
 
     useEffect(() => {
         setLoading(false);
+
+        (async () => {
+            const { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+              console.warn('Permission to access location was denied');
+              return;
+            }
+            
+            const {
+              coords: { latitude, longitude },
+            } = await Location.getCurrentPositionAsync({});
+            setLocation({ latitude, longitude });
+        })();
     }, []);
 
     const doLogin = async () => {
@@ -76,9 +91,9 @@ console.log(configStore, ' // configStore');
                     login: data.login,
                     password: MD5(data.password).toString(),
                     location: {
-                        imei: '1234567890',
-                        latitude: '1234567890',
-                        longitude: '1234567890',
+                        imei: await getDeviceId(),
+                        latitude: location?.latitude,
+                        longitude: location?.longitude,
                     }
                 };
                 console.log(MOBILE_API_PATH_REST + MOBILE_API_PATH_REST_AUTH_LOGIN);
@@ -108,15 +123,15 @@ console.log(configStore, ' // configStore');
                 } else {
                     await setToken(response.data.token);
                     dispatch({
-                        type: 'SET_CONFIG',
+                        type: 'SET_CUSTOMER',
                         payload:{
                             isLogin: true,
-                            account: result?.userInfo,
-                            departments: result?.departments,
-                            permissions: result?.permissions,
-                            uniqueDBKey: result?.uniqueDBKey,
-                            uniqueKey: result?.uniqueKey,
-                            userDefaultHomePage: result?.userDefaultHomePage,
+                            account: response?.data?.userInfo,
+                            departments: response?.data?.departments,
+                            permissions: response?.data?.permissions,
+                            uniqueDBKey: response?.data?.uniqueDBKey,
+                            uniqueKey: response?.data?.uniqueKey,
+                            userDefaultHomePage: response?.data?.userDefaultHomePage,
                         }
                     })
                     navigation.navigate(NAVIGATOR_STACK_SCREEN_HOME);

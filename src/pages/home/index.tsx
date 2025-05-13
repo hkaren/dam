@@ -13,10 +13,11 @@ export const Home: FC<MainTabActivityScreenProps> = (props) => {
 
     return (
       <View style={{flex: 1, backgroundColor: 'white'}}>
-        <Header navigation={props.navigation} showHumburgerIcon={true}/>
+        {/* <Header navigation={props.navigation} showHumburgerIcon={true}/> */}
         {/* <PostsList route={props.route} navigation={props.navigation} accountId={customer.accountId}/> */}
+        
         <View>
-            <Text>Home</Text>
+          <Text>Home</Text>
         </View>
 
       </View>
