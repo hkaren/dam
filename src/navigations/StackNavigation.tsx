@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import {HeaderProfile} from "../components/headerProfile";
 import {DrawerNavigation} from "./DrawerNavigation";
+import {NAVIGATOR_STACK_SCREEN_DRAWER} from "../utils/AppConstants";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +26,7 @@ const StackNavigation: React.FC = () => {
             {/*<Stack.Screen name={'AuthStackNavigation'} component={AuthStackNavigation} options={{headerShown: false}}/>*/}
 
 
-            <Stack.Screen name={'DrawerNavigation'} component={DrawerNavigation}
+            <Stack.Screen name={NAVIGATOR_STACK_SCREEN_DRAWER} component={DrawerNavigation}
 
                         options={{
                             //headerShown: false
