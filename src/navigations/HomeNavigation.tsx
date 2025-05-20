@@ -11,6 +11,7 @@ import { Home } from "../pages/home";
 import { Settings } from "../pages/Settings";
 import AuthStackNavigation from "./AuthStackNavigation";
 import Logout from "../pages/logout";
+import HomeStack from "./HomeStack";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,8 +22,10 @@ const HomeNavigation: React.FC = (props) => {
                 headerShown: false,
             }}
         >
-            <Stack.Screen name={'AuthStackNavigation'} component={AuthStackNavigation} options={{headerShown: false}}/>
-            <Stack.Screen name={NAVIGATOR_STACK_SCREEN_HOME} component={Home}/>
+            <Stack.Screen name={'HomeStack'} component={HomeStack}/>
+            {/* <Stack.Screen name={NAVIGATOR_STACK_SCREEN_SETTINGS} component={Settings}/>
+            <Stack.Screen name={NAVIGATOR_STACK_SCREEN_LOGOUT} component={Logout}/> */}
+            {/* <Stack.Screen name={NAVIGATOR_STACK_SCREEN_LOGOUT} component={Logout}/> */}
         </Stack.Navigator>
     );
 };

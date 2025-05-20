@@ -27,7 +27,9 @@ const StackNavigation: React.FC = () => {
         <Stack.Navigator
             screenOptions={{animation: 'none'}}
         >
-            <Stack.Screen name={'HomeNavigation'} component={HomeNavigation}
+            <Stack.Screen name={'AuthStackNavigation'} component={AuthStackNavigation} options={{headerShown: false}}/>
+            <Stack.Screen name={'HomeNavigation'} component={HomeNavigation} 
+                
                         options={{
                             //headerShown: false
                             header: (navigation) => <HeaderProfile />
@@ -37,12 +39,12 @@ const StackNavigation: React.FC = () => {
                         options={{headerShown: false}}/> */}
 
 
-            <Stack.Screen name={NAVIGATOR_STACK_SCREEN_SETTINGS} component={Settings} options={{
+            {/* <Stack.Screen name={NAVIGATOR_STACK_SCREEN_SETTINGS} component={Settings} options={{
                             headerShown: false
                         }}/>
             <Stack.Screen name={NAVIGATOR_STACK_SCREEN_LOGOUT} component={Logout} options={{
                             headerShown: false
-                        }}/>
+                        }}/> */}
         </Stack.Navigator>
         {/* <BottomHalfModal
             isVisible={config.bottomHalfModal}

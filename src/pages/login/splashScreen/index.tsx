@@ -110,7 +110,7 @@ export const SplashScreen = ({navigation}: SplashScreenProps) => {
                     //         userDefaultHomePage: response?.data?.userDefaultHomePage,
                     //     }
                     // })
-                    navigation.navigate(NAVIGATOR_STACK_SCREEN_HOME);
+                    navigation.navigate('HomeNavigation');
                 } else {
                     navigation.replace(NAVIGATOR_STACK_SCREEN_WELCOME);
                 }
