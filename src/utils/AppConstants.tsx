@@ -5,6 +5,7 @@ export const MOBILE_API_PATH_REST_AUTH_LOGIN = "rest/services/auth/login";
 
 
 
+export const NAVIGATOR_STACK_SCREEN_SPLASH = "SplashScreen";
 export const NAVIGATOR_STACK_SCREEN_WELCOME = "WelcomePage";
 export const NAVIGATOR_STACK_SCREEN_PRE_LOGIN_FORM = "PreLoginForm";
 export const NAVIGATOR_STACK_SCREEN_LOGIN_FORM = "LoginForm";

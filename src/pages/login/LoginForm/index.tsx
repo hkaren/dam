@@ -23,9 +23,11 @@ import { Loading } from '../../../components/loading/Loading';
 import MD5 from 'crypto-js/md5';
 import * as Location from 'expo-location';
 
-const setToken = async (token: string): Promise<string | null> => {
+const setDataToStorage = async (email: string, password: string, url: string): Promise<string | null> => {
     try {
-        await AsyncStorage.setItem("token", token);
+        await AsyncStorage.setItem("email", email);
+        await AsyncStorage.setItem("password", password);
+        await AsyncStorage.setItem("url", url);
         return null
     } catch (error) {
         console.log(error);
@@ -45,7 +47,6 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const configStore = useSelector((store: any) => store.configStore);
     const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
-console.log(configStore, ' // configStore');
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -121,7 +122,7 @@ console.log(configStore, ' // configStore');
                 if(message){
                     toast('error', 'top', 'ERROR!', result?.message);
                 } else {
-                    await setToken(response.data.token);
+                    await setDataToStorage(data.login, data.password, url_);
                     dispatch({
                         type: 'SET_CUSTOMER',
                         payload:{

@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { NAVIGATOR_STACK_SCREEN_PRE_LOGIN_FORM } from '../../../utils/AppConstants';
 import styles from './styles';
+import { useSelector } from 'react-redux';
 
 type RootStackParamList = {
   Login: undefined;
@@ -14,6 +15,9 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const WelcomePage = () => {
   const navigation = useNavigation<NavigationProp>();
+  const config = useSelector((store: any) => store.config);
+  console.log(config, ' // config');
+  
 
   return (
     <View style={styles.container}>
