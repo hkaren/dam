@@ -1,16 +1,26 @@
+import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { RouteProp } from '@react-navigation/native';
+
+export type DrawerParamList = {
+  Home: undefined;
+  Settings: undefined;
+  Logout: undefined;
+};
+
+export type DrawerNavigationProps = DrawerNavigationProp<DrawerParamList>;
+
 export interface MainTabScreenHeaderProps {
     //onMoreIconClickHandler?: (e: any) => void
    // onMoreIconClickHandler(...args: any[]): any,
     showHumburgerIcon?: boolean | false,
     type?: 'page',
-    navigation?: any,
+    navigation: DrawerNavigationProps,
     chosenProfileAccountId?: string,
-    openDrawerModalCallback?: () => void,
     title?: string
 }
 export interface MainTabActivityScreenProps {
-    navigation: any,
-    route: any,
+    navigation: DrawerNavigationProps,
+    route: RouteProp<DrawerParamList, keyof DrawerParamList>,
 }
 export interface LoginFormProps {
     

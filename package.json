@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^2.1.2",
+    "@react-navigation/drawer": "^7.3.12",
     "@react-navigation/native-stack": "^7.3.12",
     "@types/crypto-js": "^4.2.2",
     "axios": "^1.9.0",
@@ -22,14 +23,15 @@
     "react-i18next": "^15.5.1",
     "react-native": "0.79.2",
     "react-native-crypto-js": "^1.0.0",
-    "react-native-gesture-handler": "^2.25.0",
+    "react-native-gesture-handler": "~2.24.0",
     "react-native-modal": "^14.0.0-rc.1",
     "react-native-paper": "^5.14.0",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-svg": "^15.11.2",
     "react-native-toast-message": "^2.3.0",
     "react-redux": "^9.2.0",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "react-native-reanimated": "~3.17.4"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

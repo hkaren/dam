@@ -29,7 +29,7 @@ export const HeaderProfile: React.FC = () => {
 
     return (
       <Fragment>
-          <Header navigation={navigation} showHumburgerIcon={true} openDrawerModalCallback={openDrawerModalCallback}/>
+          {/*<Header navigation={navigation} showHumburgerIcon={true} openDrawerModalCallback={openDrawerModalCallback}/>*/}
           <View style={styles.container}>
               <DrawerModal
                 isVisible={drawerModalVisible}

@@ -25,6 +25,10 @@ export const Header = (props: MainTabScreenHeaderProps) => {
         })
     };
 
+    const openDrawer = () => {
+        props.navigation.openDrawer();
+    };
+
     const openMessenger = () => {
         //props.navigation.navigate(NAVIGATOR_STACK_SCREEN_MESSENGER);
     };
@@ -34,7 +38,7 @@ export const Header = (props: MainTabScreenHeaderProps) => {
             <View style={styles.HeaderAreaInner}>
                 <View style={styles.HeaderAreaInnerLeft}>
                     <View style={styles.HeaderAreaInnerLeftInner}>
-                        <TouchableOpacity style={styles.HamburgerIcon} onPress={props.openDrawerModalCallback}>
+                        <TouchableOpacity style={styles.HamburgerIcon} onPress={openDrawer}>
                             <SvgComponent name='hamburger'/>
                         </TouchableOpacity>
                     </View>

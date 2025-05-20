@@ -5,6 +5,8 @@ import MyApp from "./src/MyApp";
 import store from "./src/store/Index";
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 //import AppGall from "./gall";
+import 'react-native-gesture-handler';
+
 
 
 const App: React.FC = () => {

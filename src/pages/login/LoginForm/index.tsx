@@ -8,9 +8,9 @@ import { useTranslation } from 'react-i18next';
 import axiosInstance from "../../../networking/api";
 import {FormData} from '../../../Interface';
 import {
-    MOBILE_API_PATH_REST, 
+    MOBILE_API_PATH_REST,
     MOBILE_API_PATH_REST_AUTH_LOGIN,
-    MOBILE_APP_VERSION,
+    MOBILE_APP_VERSION, NAVIGATOR_STACK_SCREEN_DRAWER,
     NAVIGATOR_STACK_SCREEN_HOME,
     RESPONSE_CODE_ERROR_NOT_COMPATIBLE_VERSION,
     RESPONSE_CODE_ERROR_UNKNOWN_MOBILE_DEVICE,
@@ -67,7 +67,7 @@ export const LoginForm = () => {
               console.warn('Permission to access location was denied');
               return;
             }
-            
+
             const {
               coords: { latitude, longitude },
             } = await Location.getCurrentPositionAsync({});
@@ -103,12 +103,12 @@ export const LoginForm = () => {
                 if(!url_.endsWith('/')){
                     url_ += '/';
                 }
-                
+
                 console.log(dataToSend, ' // dataToSend');
                 const response = await axiosInstance.post(url_ + MOBILE_API_PATH_REST_AUTH_LOGIN, dataToSend);
                 const result = response?.data?.result;
                 console.log(response?.data, ' // result');
-                
+
                 let message: string = '';
                 if(result?.code === RESPONSE_CODE_ERROR_NOT_COMPATIBLE_VERSION){
                     message = t('incompatible_version1');
@@ -135,7 +135,7 @@ export const LoginForm = () => {
                             userDefaultHomePage: response?.data?.userDefaultHomePage,
                         }
                     })
-                    navigation.navigate(NAVIGATOR_STACK_SCREEN_HOME);
+                    navigation.navigate(NAVIGATOR_STACK_SCREEN_DRAWER);
                 }
             }
         } catch (e) {
