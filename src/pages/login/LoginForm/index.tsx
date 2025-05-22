@@ -37,6 +37,7 @@ const setDataToStorage = async (email: string, password: string, url: string): P
 
 type RootStackParamList = {
   Home: undefined;
+  DrawerNavigation: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -100,6 +101,10 @@ export const LoginForm = () => {
                 console.log(MOBILE_API_PATH_REST + MOBILE_API_PATH_REST_AUTH_LOGIN);
 
                 let url_ = "http://10.27.41.84:8888/dgs3g_web";
+                // if(!url_.endsWith('/')){
+                //     url_ += '/';
+                // }
+                //let url_ = url;
                 if(!url_.endsWith('/')){
                     url_ += '/';
                 }
@@ -210,7 +215,7 @@ export const LoginForm = () => {
 
                 <View style={styles.idContainer}>
                     <Text style={styles.idLabel}>{t('providerId')}</Text>
-                    <Text style={styles.idValue}>5CE0307A-C968-4991-A819-DC591857DDF</Text>
+                    <Text style={styles.idValue}>{getDeviceId()}</Text>
                 </View>
             </View>
             <Loading visible={loading} />

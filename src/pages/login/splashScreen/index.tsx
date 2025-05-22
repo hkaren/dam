@@ -34,6 +34,17 @@ const getUrl = async (): Promise<string | null> => {
         return null;
     }
 };
+const setDataToStorage = async (email: string, password: string, url: string): Promise<string | null> => {
+    try {
+        await AsyncStorage.setItem("email", email);
+        await AsyncStorage.setItem("password", password);
+        await AsyncStorage.setItem("url", url);
+        return null
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+  };
 
 interface SplashScreenProps {
     navigation: any;
@@ -97,20 +108,20 @@ export const SplashScreen = ({navigation}: SplashScreenProps) => {
                 console.log(response?.data, ' // result');
                 
                 if(result?.code == RESPONSE_CODE_SUCCESS){
-                    // await setDataToStorage(data.login, data.password, url_);
-                    // dispatch({
-                    //     type: 'SET_CUSTOMER',
-                    //     payload:{
-                    //         isLogin: true,
-                    //         account: response?.data?.userInfo,
-                    //         departments: response?.data?.departments,
-                    //         permissions: response?.data?.permissions,
-                    //         uniqueDBKey: response?.data?.uniqueDBKey,
-                    //         uniqueKey: response?.data?.uniqueKey,
-                    //         userDefaultHomePage: response?.data?.userDefaultHomePage,
-                    //     }
-                    // })
-                    navigation.navigate('HomeNavigation');
+                    await setDataToStorage(email, password, url);
+                    dispatch({
+                        type: 'SET_CUSTOMER',
+                        payload:{
+                            isLogin: true,
+                            account: response?.data?.userInfo,
+                            departments: response?.data?.departments,
+                            permissions: response?.data?.permissions,
+                            uniqueDBKey: response?.data?.uniqueDBKey,
+                            uniqueKey: response?.data?.uniqueKey,
+                            userDefaultHomePage: response?.data?.userDefaultHomePage,
+                        }
+                    })
+                    navigation.navigate('DrawerNavigation');
                 } else {
                     navigation.replace(NAVIGATOR_STACK_SCREEN_WELCOME);
                 }
@@ -125,7 +136,7 @@ export const SplashScreen = ({navigation}: SplashScreenProps) => {
     return (
         <View style={styles.container}>
             <Image
-                source={require('../../../../assets/logo_intro.jpg')}
+                source={require('../../../../assets/logo_v2.png')}
                 style={styles.logo}
                 resizeMode="contain"
             />

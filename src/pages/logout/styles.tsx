@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   logo: {
-    width: 180,
-    height: 180,
+    width: 200,
+    height: 250,
     resizeMode: 'contain',
     marginTop: 24,
   },
@@ -68,6 +68,9 @@ const styles = StyleSheet.create({
     color: '#bbb',
     fontSize: 18,
     marginTop: 32,
+    width: '100%',
+    textAlign: 'left',
+    marginLeft: 40,
   },
   vendorValue: {
     color: '#bbb',

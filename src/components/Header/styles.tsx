@@ -19,6 +19,16 @@ export const styles = StyleSheet.create({
     HeaderAreaInnerLeft: {
         marginRight: 'auto'
     },
+    HeaderAreaInnerCenter: {
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    HeaderAreaInnerCenterText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#000000',
+        marginTop: 8
+    },
     HeaderAreaInnerRight: {
         marginLeft: 'auto'
     },

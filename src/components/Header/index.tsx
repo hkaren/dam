@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 
 export const Header = (props: MainTabScreenHeaderProps) => {
     const dispatch = useDispatch();
+    const config = useSelector((store: any) => store.config);
     const userInfo = useSelector((store: any) => store.userInfo);
 
     const [showBack, setShowBack] = useState(false);
@@ -42,6 +43,9 @@ export const Header = (props: MainTabScreenHeaderProps) => {
                             <SvgComponent name='hamburger'/>
                         </TouchableOpacity>
                     </View>
+                </View>
+                <View style={styles.HeaderAreaInnerCenter}>
+                    <Text style={styles.HeaderAreaInnerCenterText}>{config.profileDrawerActiveTitle}</Text>
                 </View>
                 <View style={styles.HeaderAreaInnerRight}>
                     <View style={styles.HeaderAreaInnerRightInner}>

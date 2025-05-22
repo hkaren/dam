@@ -64,22 +64,22 @@ export const DrawerModal: React.FC<DrawerModalProps> = ({
     };
 
     const menuArray: MenuItem[] = [
-        {id: 1, navigateTo: 'ProfileAboutHome', title: 'Messages', icon: ImagesPath.messageDrawer},
-        {id: 2, navigateTo: 'ProfileCourse', title: 'Physical archive', icon: ImagesPath.phArchiveDrawer},
-        {id: 3, navigateTo: 'ProfileLesson', title: 'Electronic archive', icon: ImagesPath.elArchiveDrawer},
-        {id: 4, navigateTo: 'ProfileBook', title: 'Search document', icon: ImagesPath.searchDrawer},
-        {id: 5, navigateTo: 'ProfileProject', title: 'Manual task', icon: ImagesPath.manualTaskDrawer},
-        {id: 6, navigateTo: 'ProfileTest', title: 'Offline actions', icon: ImagesPath.offlineActionDrawer},
-        {id: 7, navigateTo: 'ProfileJob', title: 'Generate token', icon: ImagesPath.generateTokenDrawer},
+        // {id: 1, navigateTo: 'ProfileAboutHome', title: 'Messages', icon: ImagesPath.messageDrawer},
+        // {id: 2, navigateTo: 'ProfileCourse', title: 'Physical archive', icon: ImagesPath.phArchiveDrawer},
+        // {id: 3, navigateTo: 'ProfileLesson', title: 'Electronic archive', icon: ImagesPath.elArchiveDrawer},
+        // {id: 4, navigateTo: 'ProfileBook', title: 'Search document', icon: ImagesPath.searchDrawer},
+        // {id: 5, navigateTo: 'ProfileProject', title: 'Manual task', icon: ImagesPath.manualTaskDrawer},
+        // {id: 6, navigateTo: 'ProfileTest', title: 'Offline actions', icon: ImagesPath.offlineActionDrawer},
+        // {id: 7, navigateTo: 'ProfileJob', title: 'Generate token', icon: ImagesPath.generateTokenDrawer},
     ];
 
     const selectLeftMenu = (menuItem: MenuItem) => {
-        setSelectedId(menuItem.id);
-        dispatch({type: 'SET_CONFIG', payload: {profileDrawerActive: menuItem.id}})
-        onChangeSelectTab(menuItem.id)
-        onClose()
-        // @ts-ignore
-        navigation.replace(menuItem.navigateTo);
+        // setSelectedId(menuItem.id);
+        // dispatch({type: 'SET_CONFIG', payload: {profileDrawerActive: menuItem.id}})
+        // onChangeSelectTab(menuItem.id)
+        // onClose()
+        // // @ts-ignore
+        // navigation.replace(menuItem.navigateTo);
     };
 
     // useEffect(() => {
@@ -142,21 +142,21 @@ export const DrawerModal: React.FC<DrawerModalProps> = ({
                     <View style={styles.devider}></View>
                     <View>
                         <TouchableOpacity style={[styles.drawer_item]} onPress={() => selectLeftMenu({
-                            id: 8,
+                            id: '100',
                             navigateTo: 'ProfileAboutHome',
                             title: 'Settings'
                         })} >
                             <Text style={[styles.drawer_text, Styles.ml_70]}>Settings</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.drawer_item]} onPress={() => selectLeftMenu({
-                            id: 9,
+                            id: '101',
                             navigateTo: 'ProfileAboutHome',
                             title: 'About'
                         })}>
                             <Text style={[styles.drawer_text, Styles.ml_70]}>About</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.drawer_item]} onPress={() => selectLeftMenu({
-                            id: 10,
+                            id: '102',
                             navigateTo: NAVIGATOR_STACK_SCREEN_LOGOUT,
                             title: 'Logout'
                         })}>

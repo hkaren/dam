@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
 import styles from './styles';
 import ImagesPath from '../../utils/ImagesPath';
 import { MD5 } from "crypto-js";
@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDeviceId, getPlatform } from '../../utils/StaticMethods';
 import { MOBILE_API_PATH_REST, MOBILE_API_PATH_REST_AUTH_LOGIN, MOBILE_APP_VERSION, NAVIGATOR_STACK_SCREEN_HOME, NAVIGATOR_STACK_SCREEN_WELCOME, RESPONSE_CODE_SUCCESS } from '../../utils/AppConstants';
 import axiosInstance from '../../networking/api';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 
 const getEmail = async (): Promise<string | null> => {
   try {
@@ -38,8 +40,27 @@ interface LogoutProps {
   navigation: any;
 }
 
+const setDataToStorage = async (email: string, password: string, url: string): Promise<string | null> => {
+  try {
+      await AsyncStorage.setItem("email", email);
+      await AsyncStorage.setItem("password", password);
+      await AsyncStorage.setItem("url", url);
+      return null
+  } catch (error) {
+      console.log(error);
+      return null;
+  }
+};
+
 const Logout = ({navigation}: LogoutProps) => {
+  const { t } = useTranslation();
   const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+  const dispatch = useDispatch();
+  const userInfo = useSelector((store: any) => store.userInfo);
+  const config = useSelector((store: any) => store.config);
+  console.log(userInfo?.account, ' // userInfo');
+  console.log(config, ' // config');
+  
 
   useEffect(() => {
     (async () => {
@@ -54,7 +75,7 @@ const Logout = ({navigation}: LogoutProps) => {
         } = await Location.getCurrentPositionAsync({});
         setLocation({ latitude, longitude });
     })();
-}, []);
+  }, []);
 
   const handleAuth = async () => {
     try {
@@ -86,19 +107,19 @@ const Logout = ({navigation}: LogoutProps) => {
             console.log(response?.data, ' // result');
             
             if(result?.code == RESPONSE_CODE_SUCCESS){
-                // await setDataToStorage(data.login, data.password, url_);
-                // dispatch({
-                //     type: 'SET_CUSTOMER',
-                //     payload:{
-                //         isLogin: true,
-                //         account: response?.data?.userInfo,
-                //         departments: response?.data?.departments,
-                //         permissions: response?.data?.permissions,
-                //         uniqueDBKey: response?.data?.uniqueDBKey,
-                //         uniqueKey: response?.data?.uniqueKey,
-                //         userDefaultHomePage: response?.data?.userDefaultHomePage,
-                //     }
-                // })
+                await setDataToStorage(email, password, url);
+                dispatch({
+                    type: 'SET_CUSTOMER',
+                    payload:{
+                        isLogin: true,
+                        account: response?.data?.userInfo,
+                        departments: response?.data?.departments,
+                        permissions: response?.data?.permissions,
+                        uniqueDBKey: response?.data?.uniqueDBKey,
+                        uniqueKey: response?.data?.uniqueKey,
+                        userDefaultHomePage: response?.data?.userDefaultHomePage,
+                    }
+                })
                 navigation.navigate(NAVIGATOR_STACK_SCREEN_HOME);
             } else {
                 navigation.replace(NAVIGATOR_STACK_SCREEN_WELCOME);
@@ -109,49 +130,47 @@ const Logout = ({navigation}: LogoutProps) => {
     } catch (e) {
         navigation.replace(NAVIGATOR_STACK_SCREEN_WELCOME);
     }
-};
+  };
 
   return (
     <View style={styles.container}>
       
       {/* Logo */}
       <Image
-        source={ImagesPath.logoV2} // Replace with your actual logo path
+        source={ImagesPath.logoIntro} // Replace with your actual logo path
         style={styles.logo}
       />
 
       {/* damaris mobile text */}
-      <Text style={styles.appName}>
+      {/* <Text style={styles.appName}>
         <Text style={styles.appNameMain}>damaris</Text>
         <Text style={styles.appNameSub}>mobile</Text>
-      </Text>
+      </Text> */}
 
       {/* My account box */}
       <View style={styles.accountBox}>
-        <Text style={styles.accountTitle}>My account</Text>
+        <Text style={styles.accountTitle}>{t('menu_item_myAccount')}</Text>
         <Text style={styles.accountField}>
-          URL:
-          <Text style={styles.accountValue}>http://10.27.41.84:8888/dgs3g_web</Text>
+          {t('URL')}:
+          <Text style={styles.accountValue}>{getUrl()}</Text>
         </Text>
         <Text style={[styles.accountField, styles.accountFieldMargin]}>
-          Login:
-          <Text style={styles.accountValue}>karen</Text>
+          {t('login')}:
+          <Text style={styles.accountValue}> {userInfo?.account?.login}</Text>
         </Text>
         <Text style={[styles.accountField, styles.accountFieldMargin]}>
-          Username:
-          <Text style={styles.accountValue}>Karen Hakobyan</Text>
+          {t('username')}:
+          <Text style={styles.accountValue}> {userInfo?.account?.firstName} {userInfo?.account?.lastName}</Text>
         </Text>
       </View>
 
       {/* Vendor ID */}
-      <Text style={styles.vendorLabel}>Vendor ID</Text>
-      <Text style={styles.vendorValue}>
-        5CE0307A-C968-4991-A819-DC5919857DDF
-      </Text>
+      <Text style={styles.vendorLabel}>{t('providerId')}</Text>
+      <Text style={styles.vendorValue}>{getDeviceId()}</Text>
 
       {/* Login button */}
       <TouchableOpacity style={styles.loginButton} onPress={() => handleAuth()}>
-        <Text style={styles.loginButtonText}>Login</Text>
+        <Text style={styles.loginButtonText}>{t('login')}</Text>
       </TouchableOpacity>
     </View>
   );

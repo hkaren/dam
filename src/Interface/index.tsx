@@ -4,6 +4,7 @@ import { RouteProp } from '@react-navigation/native';
 export type DrawerParamList = {
   Home: undefined;
   Settings: undefined;
+  About: undefined;
   Logout: undefined;
 };
 
@@ -32,7 +33,7 @@ export interface FormData {
 
 export interface MenuItem {
     icon?: any;
-    id: number;
+    id: string;
     navigateTo: string;
     title: string;
     name?: string;
@@ -45,4 +46,21 @@ export interface SvgProps {
     color?: string,
     width?: string,
     height?: string
+}
+
+export interface InputOutlinedProps {
+    label: string,
+    value?: any,
+    outlineStyleCustom?: Object,
+    placeholderStyle?: Object,
+    outlineStyle?: React.CSSProperties[],
+    fieldCss?: React.CSSProperties[],
+    onChange: (e: any) => void,
+    keyboardType?: any,
+    secureTextEntry?: boolean,
+    multiline?: boolean,
+    editable?: number,
+    textArea?: boolean,
+    onClickCallback?: () => void,
+    fieldInfo?: any,
 }

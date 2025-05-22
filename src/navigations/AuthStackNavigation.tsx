@@ -21,20 +21,13 @@ const AuthStackNavigation: React.FC = () => {
             <Stack.Navigator
                 screenOptions={{
                     headerShown: false,
-                }}
-            >
+                }}>
                 <Stack.Screen name={NAVIGATOR_STACK_SCREEN_SPLASH} component={SplashScreen}/>
                 <Stack.Screen name={NAVIGATOR_STACK_SCREEN_WELCOME} component={WelcomePage}/>
                 <Stack.Screen name={NAVIGATOR_STACK_SCREEN_PRE_LOGIN_FORM} component={PreLoginForm}/>
                 <Stack.Screen name={NAVIGATOR_STACK_SCREEN_LOGIN_FORM} component={LoginForm}/>
-                {/* <Stack.Screen name={NAVIGATOR_STACK_SCREEN_SIGN_UP} component={RegistrationForm}/>
-                <Stack.Screen name={NAVIGATOR_STACK_SCREEN_FORGOT_PASS} component={ForgotPassForm}/>
-                <Stack.Screen name={"SendMail"} component={SendMail}/>
-                <Stack.Screen name={"ChangePassword"} component={ChangePassword}/> */}
             </Stack.Navigator>
         </>
-
-
     );
 };
 

@@ -61,7 +61,6 @@ const resources = {
           password: 'Password',
           username: 'Username',
           logout_username: 'Username:',
-          logout_URL: 'URL:',
           URL: 'URL',
           incorrect_user_details: 'Incorrect user details',
           account_info: 'Account info',

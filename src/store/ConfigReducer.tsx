@@ -1,6 +1,7 @@
 
 const initialState: any = {
-    profileDrawerActive: 1,
+    profileDrawerActiveId: 1,
+    profileDrawerActiveTitle: '',
     
     bottomHalfModal: false,
     bottomHalfModalData:{},
