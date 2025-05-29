@@ -1,11 +1,13 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Home } from '../pages/home';
-import Settings from '../pages/Settings';
+import Settings from '../pages/settings';
 import Logout from '../pages/logout';
 import { DrawerParamList } from '../Interface';
 import CustomDrawer from '../components/CustomDrawer';
 import About from '../pages/about';
+import GenerateToken from '../pages/generateToken';
+import Messages from '../pages/messages';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
@@ -24,6 +26,8 @@ export const DrawerNavigation = () => {
       }}
     >
       <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Screen name="Messages" component={Messages} />
+      <Drawer.Screen name="GenerateToken" component={GenerateToken}  />
       <Drawer.Screen name="Settings" component={Settings} />
       <Drawer.Screen name="About" component={About} />
       <Drawer.Screen name="Logout" component={Logout} />

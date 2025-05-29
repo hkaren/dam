@@ -6,7 +6,7 @@ import { MD5 } from "crypto-js";
 import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDeviceId, getPlatform } from '../../utils/StaticMethods';
-import { MOBILE_API_PATH_REST, MOBILE_API_PATH_REST_AUTH_LOGIN, MOBILE_APP_VERSION, NAVIGATOR_STACK_SCREEN_HOME, NAVIGATOR_STACK_SCREEN_WELCOME, RESPONSE_CODE_SUCCESS } from '../../utils/AppConstants';
+import { MOBILE_API_PATH_REST, MOBILE_API_PATH_REST_AUTH_LOGIN, MOBILE_APP_VERSION, MOBILE_DEFAULT_LANG_KEY, NAVIGATOR_STACK_SCREEN_HOME, NAVIGATOR_STACK_SCREEN_WELCOME, RESPONSE_CODE_SUCCESS } from '../../utils/AppConstants';
 import axiosInstance from '../../networking/api';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,16 +35,25 @@ const getUrl = async (): Promise<string | null> => {
       return null;
   }
 };
+const getLang = async (): Promise<string | null> => {
+  try {
+      return await AsyncStorage.getItem("lang");
+  } catch (error) {
+      console.log(error);
+      return null;  
+  }
+};
 
 interface LogoutProps {
   navigation: any;
 }
 
-const setDataToStorage = async (email: string, password: string, url: string): Promise<string | null> => {
+const setDataToStorage = async (email: string, password: string, url: string, lang: string): Promise<string | null> => {
   try {
       await AsyncStorage.setItem("email", email);
       await AsyncStorage.setItem("password", password);
       await AsyncStorage.setItem("url", url);
+      await AsyncStorage.setItem("lang", lang);
       return null
   } catch (error) {
       console.log(error);
@@ -82,7 +91,11 @@ const Logout = ({navigation}: LogoutProps) => {
         const email: string | null = await getEmail();
         const password: string | null = await getPassword();
         const url: string | null = await getUrl();
-        console.log(email, password, url, ' // email, password, url');
+        let lang: string | null = await getLang();
+        if(!lang){
+          lang = MOBILE_DEFAULT_LANG_KEY;
+        }
+        console.log(email, password, url, lang, ' // email, password, url, lang');
         
         if (email && password && url) {
             const dataToSend = {
@@ -90,7 +103,7 @@ const Logout = ({navigation}: LogoutProps) => {
                 callerName: getPlatform(),
                 callerVersion: MOBILE_APP_VERSION,
                 depId: "",
-                lang: "",
+                lang: lang,
                 login: email,
                 password: MD5(password).toString(),
                 location: {
@@ -107,7 +120,7 @@ const Logout = ({navigation}: LogoutProps) => {
             console.log(response?.data, ' // result');
             
             if(result?.code == RESPONSE_CODE_SUCCESS){
-                await setDataToStorage(email, password, url);
+                await setDataToStorage(email, password, url, lang);
                 dispatch({
                     type: 'SET_CUSTOMER',
                     payload:{

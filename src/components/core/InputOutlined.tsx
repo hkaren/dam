@@ -15,14 +15,14 @@ export const InputOutlined = function (props: InputOutlinedProps) {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container]}>
             <TextInput
                 label={
                     !props.multiline || focus ?
-                        <View style={[{paddingLeft: 10, marginTop: -5}]}>
+                        <View style={[{paddingLeft: 2, marginTop: -5}]}>
                             <Text style={[props.placeholderStyle, focus || value || props.value ? {
-                                backgroundColor: '#fff',
-                                paddingLeft: 8,
+                                backgroundColor: 'white',
+                                paddingLeft: 0,
                                 paddingRight: 7,
                                 fontSize: 16,
                                 color: 'black'
@@ -73,17 +73,20 @@ export const InputOutlined = function (props: InputOutlinedProps) {
 
 const styles = StyleSheet.create({
     container: {
-        position: 'relative'
+        position: 'relative',
+        overflow: 'hidden',
+        backgroundColor: '#ffffff',
     },
     field: {
         height: 47,
         fontSize: 16,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
     },
     outlined: {
-        borderColor: '#cdc7d4',
-        borderWidth: 1,
+        borderColor: '#d9d9d9',
+        borderWidth: 2,
         backgroundColor: '#ffffff',
+        borderRadius: 15
     },
 
     labelContainer: {

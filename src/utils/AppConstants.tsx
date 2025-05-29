@@ -1,7 +1,9 @@
 export const MOBILE_APP_VERSION = "4.9";
 export const MOBILE_API_PATH_REST = "http://10.27.41.84:8888/dgs3g_web/";
 
-export const MOBILE_API_PATH_REST_AUTH_LOGIN = "rest/services/auth/login";
+export const MOBILE_DEFAULT_LANG_KEY = "fr";
+export const PAGINATION_COUNT_20 = 20;
+
 
 
 
@@ -24,6 +26,10 @@ export const NAVIGATOR_STACK_SCREEN_LOGOUT = "Logout";
 // export const NAVIGATOR_STACK_SCREEN_VERIFY_PHONE = "VerifyPhone";
 // export const NAVIGATOR_STACK_SCREEN_VERIFY_OTP = "VerifyOtp";
 
+export const MOBILE_API_PATH_REST_AUTH_LOGIN = "rest/services/auth/login";
+export const MOBILE_API_PATH_REST_DEPARTMENT = "rest/services/auth/userDepartments";
+export const MOBILE_API_PATH_REST_GENERATE_SECURITY_TOKEN = "rest/services/auth/generateSecurityToken";
+export const MOBILE_API_PATH_REST_GET_MESSAGES = "rest/services/messages/getMessages";
 
 export const RESPONSE_CODE_SUCCESS = "0001";
 export const RESPONSE_CODE_ERROR_INTERNAL_ERROR = "0002";
@@ -128,3 +134,14 @@ export const RESPONSE_CODE_ERROR_COMPANYID_OR_COMPANYIDENTIFIER_NOT_SELECTED = "
 export const RESPONSE_CODE_ERROR_SCANNINGPROJECTID_OR__SCANNINGPROJECTNAME_NOT_SELECTED = "0121";
 export const RESPONSE_CODE_ERROR_QR_CODE_EXPIRE_DATE = "0122";
 export const RESPONSE_CODE_UPDATE_INDEX_LIST_DATA_NOT_FOUND = "0130";
+
+export const SCALE_3200x2400 = "3200x2400";
+export const SCALE_3264x1836 = "3264x1836";
+export const SCALE_3200x1800 = "3200x1800";
+export const SCALE_2592x1944 = "2592x1944";
+export const SCALE_2048x1536 = "2048x1536";
+export const SCALE_1600x1200 = "1600x1200";
+export const SCALE_1440x1080 = "1440x1080";
+export const SCALE_1280x720 = "1280x720";
+export const SCALE_640x480 = "640x480";
+export const SCALE_320x240 = "320x240";

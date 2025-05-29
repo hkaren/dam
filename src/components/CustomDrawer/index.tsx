@@ -19,17 +19,17 @@ const CustomDrawer = (props: any) => {
     // onChangeSelectTab(menuItem.id)
     // onClose()
     // @ts-ignore
-    props.navigation.navigate(menuItem.navigateTo);
+    props.navigation.navigate(menuItem.navigateTo, { randomKey: Math.random() });
   };
 
   const menuArray: MenuItem[] = [
-    {id: '1', navigateTo: 'ProfileAboutHome', title: 'Messages', icon: ImagesPath.messageDrawer},
+    {id: '1', navigateTo: 'Messages', title: 'Messages', icon: ImagesPath.messageDrawer},
     {id: '2', navigateTo: 'ProfileCourse', title: 'Physical archive', icon: ImagesPath.phArchiveDrawer},
     {id: '3', navigateTo: 'ProfileLesson', title: 'Electronic archive', icon: ImagesPath.elArchiveDrawer},
     {id: '4', navigateTo: 'ProfileBook', title: 'Search document', icon: ImagesPath.searchDrawer},
     {id: '5', navigateTo: 'ProfileProject', title: 'Manual task', icon: ImagesPath.manualTaskDrawer},
     {id: '6', navigateTo: 'ProfileTest', title: 'Offline actions', icon: ImagesPath.offlineActionDrawer},
-    {id: '7', navigateTo: 'ProfileJob', title: 'Generate token', icon: ImagesPath.generateTokenDrawer},
+    {id: '7', navigateTo: 'GenerateToken', title: 'Generate token', icon: ImagesPath.generateTokenDrawer},
   ];
 
   const renderItem = ({item}: { item: MenuItem }) => {

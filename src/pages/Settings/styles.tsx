@@ -11,22 +11,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
   },
-  sectionLabel: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: '#888',
-    marginTop: 10,
-  },
-  dropdownField: {
-    backgroundColor: '#eee',
-    borderRadius: 20,
-    padding: 16,
-    marginTop: 10,
-    marginBottom: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
+  // sectionLabel: {
+  //   fontWeight: 'bold',
+  //   fontSize: 20,
+  //   color: '#888',
+  //   marginTop: 10,
+  // },
   dropdownText: {
     fontSize: 18,
   },
@@ -52,9 +42,6 @@ const styles = StyleSheet.create({
   placeholderText: {
     color: '#bbb',
   },
-  buttonGroup: {
-    marginTop: 10,
-  },
   loginButton: {
     backgroundColor: '#eaf6fa',
     borderRadius: 12,
@@ -74,6 +61,7 @@ const styles = StyleSheet.create({
   rowButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: 10,
   },
   secondaryButton: {
     backgroundColor: '#eaf6fa',
@@ -97,6 +85,18 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     fontSize: 16,
+  },
+  button: {
+    backgroundColor: '#E8F4F6',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: '#000',
+    fontWeight: '500',
   },
 });
 export default styles;

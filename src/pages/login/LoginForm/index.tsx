@@ -10,8 +10,7 @@ import {FormData} from '../../../Interface';
 import {
     MOBILE_API_PATH_REST,
     MOBILE_API_PATH_REST_AUTH_LOGIN,
-    MOBILE_APP_VERSION, NAVIGATOR_STACK_SCREEN_DRAWER,
-    NAVIGATOR_STACK_SCREEN_HOME,
+    MOBILE_APP_VERSION, MOBILE_DEFAULT_LANG_KEY, NAVIGATOR_STACK_SCREEN_DRAWER,
     RESPONSE_CODE_ERROR_NOT_COMPATIBLE_VERSION,
     RESPONSE_CODE_ERROR_UNKNOWN_MOBILE_DEVICE,
     RESPONSE_CODE_SUCCESS
@@ -23,11 +22,12 @@ import { Loading } from '../../../components/loading/Loading';
 import MD5 from 'crypto-js/md5';
 import * as Location from 'expo-location';
 
-const setDataToStorage = async (email: string, password: string, url: string): Promise<string | null> => {
+const setDataToStorage = async (email: string, password: string, url: string, lang: string): Promise<string | null> => {
     try {
         await AsyncStorage.setItem("email", email);
         await AsyncStorage.setItem("password", password);
         await AsyncStorage.setItem("url", url);
+        await AsyncStorage.setItem("lang", lang);
         return null
     } catch (error) {
         console.log(error);
@@ -89,7 +89,7 @@ export const LoginForm = () => {
                     callerName: getPlatform(),
                     callerVersion: MOBILE_APP_VERSION,
                     depId: "",
-                    lang: "",
+                    lang: MOBILE_DEFAULT_LANG_KEY,
                     login: data.login,
                     password: MD5(data.password).toString(),
                     location: {
@@ -100,11 +100,8 @@ export const LoginForm = () => {
                 };
                 console.log(MOBILE_API_PATH_REST + MOBILE_API_PATH_REST_AUTH_LOGIN);
 
-                let url_ = "http://10.27.41.84:8888/dgs3g_web";
-                // if(!url_.endsWith('/')){
-                //     url_ += '/';
-                // }
-                //let url_ = url;
+                //let url_ = "http://10.27.41.84:8888/dgs3g_web";
+                let url_ = url;
                 if(!url_.endsWith('/')){
                     url_ += '/';
                 }
@@ -127,7 +124,7 @@ export const LoginForm = () => {
                 if(message){
                     toast('error', 'top', 'ERROR!', result?.message);
                 } else {
-                    await setDataToStorage(data.login, data.password, url_);
+                    await setDataToStorage(data.login, data.password, url_, MOBILE_DEFAULT_LANG_KEY);
                     dispatch({
                         type: 'SET_CUSTOMER',
                         payload:{
@@ -140,7 +137,10 @@ export const LoginForm = () => {
                             userDefaultHomePage: response?.data?.userDefaultHomePage,
                         }
                     })
-                    navigation.navigate(NAVIGATOR_STACK_SCREEN_DRAWER);
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: NAVIGATOR_STACK_SCREEN_DRAWER }],
+                    });
                 }
             }
         } catch (e) {
@@ -205,20 +205,23 @@ export const LoginForm = () => {
                 <TextInput
                     style={styles.input}
                     value={url}
-                    onChangeText={setUrl}
+                    // onChangeText={setUrl}
+                    onChangeText={e => setUrl(e)}
                     autoCapitalize="none"
                 />
 
-                <TouchableOpacity style={styles.button} onPress={doLogin}>
+                 <TouchableOpacity style={styles.button} onPress={doLogin}>
                     <Text style={styles.buttonText}>{t('connection')}</Text>
                 </TouchableOpacity>
 
+                
                 <View style={styles.idContainer}>
                     <Text style={styles.idLabel}>{t('providerId')}</Text>
                     <Text style={styles.idValue}>{getDeviceId()}</Text>
                 </View>
             </View>
             <Loading visible={loading} />
+            <View style={{height: 300}}><Text>test</Text></View>
         </ScrollView>
     );
 };
