@@ -1,7 +1,7 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Home } from '../pages/home';
-import Settings from '../pages/settings';
+import Settings from '../pages/Settings';
 import Logout from '../pages/logout';
 import { DrawerParamList } from '../Interface';
 import CustomDrawer from '../components/CustomDrawer';
@@ -33,4 +33,4 @@ export const DrawerNavigation = () => {
       <Drawer.Screen name="Logout" component={Logout} />
     </Drawer.Navigator>
   );
-}; 
+};

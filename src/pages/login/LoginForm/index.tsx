@@ -48,6 +48,7 @@ export const LoginForm = () => {
     const dispatch = useDispatch();
     const configStore = useSelector((store: any) => store.configStore);
     const [location, setLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+    const [deviceId, setDeviceId] = useState<string | null>('');
 
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
@@ -73,6 +74,8 @@ export const LoginForm = () => {
               coords: { latitude, longitude },
             } = await Location.getCurrentPositionAsync({});
             setLocation({ latitude, longitude });
+            const id = await getDeviceId();
+            setDeviceId(id);
         })();
     }, []);
 
@@ -154,11 +157,11 @@ export const LoginForm = () => {
         setData({...data});
     };
 
-    const DismissKeyboardView = ({ children }: { children: React.ReactNode }) => (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            {children}
-        </TouchableWithoutFeedback>
-    );
+    // const DismissKeyboardView = ({ children }: { children: React.ReactNode }) => (
+    //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    //         {children}
+    //     </TouchableWithoutFeedback>
+    // );
 
     return (
         <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
@@ -214,10 +217,11 @@ export const LoginForm = () => {
                     <Text style={styles.buttonText}>{t('connection')}</Text>
                 </TouchableOpacity>
 
-                
+
                 <View style={styles.idContainer}>
                     <Text style={styles.idLabel}>{t('providerId')}</Text>
-                    <Text style={styles.idValue}>{getDeviceId()}</Text>
+                    <Text style={styles.idValue}>{deviceId}</Text>
+
                 </View>
             </View>
             <Loading visible={loading} />

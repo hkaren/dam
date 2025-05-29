@@ -6,7 +6,6 @@ import {styles} from './styles';
 import {useNavigation} from "@react-navigation/native";
 import {DrawerModal} from "../modals/drawerModal";
 import {useSelector} from "react-redux";
-import { Header } from '../header';
 
 interface RouteItem {
     id: number;
