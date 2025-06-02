@@ -30,6 +30,8 @@ export const MOBILE_API_PATH_REST_AUTH_LOGIN = "rest/services/auth/login";
 export const MOBILE_API_PATH_REST_DEPARTMENT = "rest/services/auth/userDepartments";
 export const MOBILE_API_PATH_REST_GENERATE_SECURITY_TOKEN = "rest/services/auth/generateSecurityToken";
 export const MOBILE_API_PATH_REST_GET_MESSAGES = "rest/services/messages/getMessages";
+export const MOBILE_API_PATH_REST_READ_MESSAGE = "rest/services/messages/readMessage";
+export const MOBILE_API_PATH_REST_MESSAGE_RECEIVERS_LIST = "rest/services/messages/getUsers";
 
 export const RESPONSE_CODE_SUCCESS = "0001";
 export const RESPONSE_CODE_ERROR_INTERNAL_ERROR = "0002";

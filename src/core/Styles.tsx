@@ -9,6 +9,12 @@ export const Styles = StyleSheet.create({
     w_100: {
         width: 100
     },
+    w_100p: {
+        width: '100%'
+    },
+    mb_5: {
+        marginBottom: 5
+    },
     mb_10: {
         marginBottom: 10
     },
@@ -30,6 +36,9 @@ export const Styles = StyleSheet.create({
     ml_70: {
         marginLeft: 70
     },
+    pt_15: {
+        paddingTop: 15
+    },
     pd_15: {
         padding: 15
     },
@@ -38,6 +47,9 @@ export const Styles = StyleSheet.create({
     },
     fw_b: {
         fontWeight: 'bold'
+    },
+    fw_n: {
+        fontWeight: 'normal'
     },
     fs_14: {
         fontSize: 14
@@ -54,9 +66,23 @@ export const Styles = StyleSheet.create({
     color_d9: {
         color: '#d9d9d9'
     },
+    t_a_c: {
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    h_30: {
+        height: 30
+    },
+    h_44: {
+        height: 44
+    },
+    flex_d_row: {
+        flexDirection: 'row'
+    },
     IconButton: {
        // width: 100,
         height: 44,
+        width: 44,
         paddingHorizontal: 15,
         justifyContent: 'center',
         alignItems: 'center',
@@ -79,7 +105,10 @@ export const Styles = StyleSheet.create({
         borderRadius: 10,
         alignItems: 'center',
         marginTop: 15,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        width: '100%',
+        textAlign: 'center',
+        justifyContent: 'center'
     },
     buttonText: {
         fontSize: 18,

@@ -7,7 +7,7 @@ import {
 } from '../../components';
 import {useDispatch, useSelector} from "react-redux";
 import { Text, View, ScrollView, TouchableOpacity, Switch } from 'react-native';
-import styles from './styles';
+
 import { InputOutlined } from '../../components/core/InputOutlined';
 import { Select } from '../../components/core/Select';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +23,7 @@ import { Loading } from '../../components/loading/Loading';
 import { MD5 } from 'crypto-js';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import i18n from '../../configs/i18n';
+import styles from './styles';
 
 const getUrlFromStorage = async (): Promise<string | null> => {
   try {
@@ -334,7 +335,7 @@ const Settings: FC<MainTabActivityScreenProps> = (props) => {
                   }}
               />
             </View>
-            <View style={Styles.devider}></View>
+            <View style={[Styles.devider, {marginHorizontal: 16}]}></View>
             <View style={Styles.mb_10}>
                 <InputOutlined
                   label={t('username')}
@@ -396,7 +397,7 @@ const Settings: FC<MainTabActivityScreenProps> = (props) => {
                   thumbColor={allowFingerprint ? '#379ec3' : '#b3d6e3'}
                 />
               </View>
-              <View style={Styles.devider}></View>
+              <View style={[Styles.devider, {marginHorizontal: 16}]}></View>
               <View style={{ backgroundColor: '#ededed', borderRadius: 20, padding: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                 <Text style={{ fontSize: 16, color: '#222' }}>{t('archive_only_as_pdf')}</Text>
                 <Switch

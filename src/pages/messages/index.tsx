@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, Platform, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import styles from './styles';
-import ImagesPath from '../../utils/ImagesPath';
-import { MD5 } from "crypto-js";
-import * as Location from 'expo-location';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getDeviceId, getPlatform } from '../../utils/StaticMethods';
-import { MOBILE_API_PATH_REST, MOBILE_API_PATH_REST_AUTH_LOGIN, MOBILE_API_PATH_REST_GET_MESSAGES, MOBILE_APP_VERSION, MOBILE_DEFAULT_LANG_KEY, NAVIGATOR_STACK_SCREEN_HOME, NAVIGATOR_STACK_SCREEN_WELCOME, PAGINATION_COUNT_20, RESPONSE_CODE_SUCCESS } from '../../utils/AppConstants';
+import {  MOBILE_API_PATH_REST_GET_MESSAGES, MOBILE_API_PATH_REST_READ_MESSAGE, PAGINATION_COUNT_20 } from '../../utils/AppConstants';
 import axiosInstance from '../../networking/api';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Header } from '../../components';
 import { Loading } from '../../components/loading/Loading';
 import { NoDataFoundPage } from '../../components/core/NoDataFoundPage';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
+import HTML from 'react-native-render-html';
+import { Styles } from '../../core/Styles';
+import { getDeviceId } from '../../utils/StaticMethods';
+import * as Location from 'expo-location';
 
 const getUrl = async (): Promise<string | null> => {
   try {
@@ -47,10 +47,11 @@ const Messages = (props: MessagesProps) => {
   const [messagesListData, setMessagesListData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [endScrollFlag, setEndScrollFlag] = useState<boolean>(true);
-  const [scrollCounter, setScrollCounter] = useState<number>(0);
+  const [scrollCounter, setScrollCounter] = useState<number>(1);
   const [noDataFoundPage, setNoDataFoundPage] = useState(false);
   const [allowServerCall, setAllowServerCall] = useState<boolean>(true);
   const [loadingTryAgain, setLoadingTryAgain] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState<any>(null);
   
   useEffect(() => {
     setLoading(true);
@@ -59,16 +60,32 @@ const Messages = (props: MessagesProps) => {
     setAllowServerCall(true);
     setLoadingTryAgain(false);
     setMessagesListData([]);
-    setScrollCounter(0);
-    initMessages(0, true);
+    setScrollCounter(1);
+    setSelectedMessage(null);
+    initMessages(1, true);
   }, [props.route.params]);
+
+  useEffect(() => {
+    (async () => {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          console.warn('Permission to access location was denied');
+          return;
+        }
+        
+        const {
+          coords: { latitude, longitude },
+        } = await Location.getCurrentPositionAsync({});
+        setLocation({ latitude, longitude });
+    })();
+  }, []);
 
   const reInitPages = () => {
       setRefreshing(true)
-      setScrollCounter(0);
+      setScrollCounter(1);
       setAllowServerCall(true);
       setLoadingTryAgain(true);
-      initMessages(0, true);
+      initMessages(1, true);
   };
 
   const nextPagePages = () => {
@@ -86,29 +103,25 @@ const Messages = (props: MessagesProps) => {
           const data = {
             uniqueKey: userInfo.uniqueKey,
             lang: lang,
-            allMessages: false,
+            allMessages: props?.route?.params?.actionType == 'all-messages' ? true : false,
             pagination: {
               pageNumber: scrollCounter,
               pageSize: PAGINATION_COUNT_20
             }
           };
-          console.log(url + MOBILE_API_PATH_REST_GET_MESSAGES, ' /// url + MOBILE_API_PATH_REST_GET_MESSAGES');
-          
           const response = await axiosInstance.post(url + MOBILE_API_PATH_REST_GET_MESSAGES, data);
-          const responsePages = response.data;
-          //console.log(' /// responsePages', responsePages, ' /// responsePages');
-          
+          const messages = response.data.messages;
 
-          if (responsePages) {
-              if (scrollCounter == 0) {
+          if (messages) {
+              if (scrollCounter == 1) {
                   setNoDataFoundPage(false);
-                  setMessagesListData(responsePages);
+                  setMessagesListData(messages);
               } else {
                   setNoDataFoundPage(false);
-                  setMessagesListData([...messagesListData, ...responsePages]);
+                  setMessagesListData([...messagesListData, ...messages]);
               }
 
-              if (responsePages.length == 0) {
+              if (messages.length == 0) {
                   setNoDataFoundPage(true);
               }
           } else {
@@ -120,7 +133,7 @@ const Messages = (props: MessagesProps) => {
           setAllowServerCall(true);
           setRefreshing(false)
 
-          if(responsePages?.length == PAGINATION_COUNT_20){
+          if(messages?.length == PAGINATION_COUNT_20){
               setEndScrollFlag(true);
           } else {
               setEndScrollFlag(false);
@@ -141,62 +154,92 @@ const Messages = (props: MessagesProps) => {
     }
   };
 
-  const messages = [
-    {
-      id: '1',
-      title: 'Company: zzs',
-      subtitle: 'Company "zzs" has been deleted.\n\nDone...',
-    },
-    {
-      id: '2',
-      title: 'Company: zzqq111111',
-      subtitle: 'Company "zzqq111111" has ...',
-    },
-  ];
+  const chooseMessage = async (item: any) => {
+    setSelectedMessage(item);
+    
+    const url: string | null = await getUrl();
+    const lang: string | null = await getLang();
+    
+    const data = {
+      uniqueKey: userInfo.uniqueKey,
+      lang: lang,
+      messageIDs: item.msgID,
+      location: {
+          imei: await getDeviceId(),
+          latitude: location?.latitude,
+          longitude: location?.longitude,
+      }
+    };
+    const response = await axiosInstance.post(url + MOBILE_API_PATH_REST_READ_MESSAGE, data);
+  };
 
-  const _renderPage = ({item, index}: { item: any, index: number }) => {
+  const _renderPage = ({item, index}: { item: any, index: number }) => {    
     return (
-      <View>
-        <View style={styles.messageContainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.subtitle}>{item.subtitle}</Text>
-        </View>
-        <View style={styles.divider} />
-      </View>
+        <TouchableOpacity activeOpacity={1} style={[styles.messageContainer]} onPress={() => chooseMessage(item)}>
+          <Text style={[styles.title, item.isRead === 'true' ? Styles.fw_n : Styles.fw_b]}>{item.subject}</Text>
+          <HTML 
+              html={item.msgBody}
+              containerStyle={styles.desc_cont}
+              baseFontStyle={styles.desc_text}
+              tagsStyles={{
+                b: {
+                  fontWeight: 'normal'
+                },
+                strong: {
+                  fontWeight: 'normal'
+                }
+              }}
+            />
+          <View style={styles.divider}/>
+        </TouchableOpacity>
     )
   };
 
   return (
     <View style={styles.container}>
       <Header title={t('fragment_about_us_title')} navigation={props.navigation} />
-      {/* <FlatList
-        data={messages}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingBottom: 80 }}
-      /> */}
-
-      {messages?.length > 0 &&
-          <FlatList refreshControl={<RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={refreshing}
-                                      onRefresh={() => {
-                                          reInitPages();
-                                      }}/>}
-                  data={messagesListData}
-                  renderItem={_renderPage}
-                  keyExtractor={(item) => item?.pageId}
-                  showsVerticalScrollIndicator={false}
-                  onEndReachedThreshold={0.2}
-                  onEndReached={() => nextPagePages()}
-                  ListFooterComponent={endScrollFlag ? <View><ActivityIndicator
-                  style={{paddingBottom: 15, backgroundColor: 'white'}}
-                  size={'large'}
-                  color={'#000000'}
-                  /></View> : null}
-              />
-      }
-      { noDataFoundPage ?
-          <NoDataFoundPage reInitHandler={() => reInitPages()} state={loadingTryAgain} />
-          : null
+      { selectedMessage ?
+        <View style={Styles.pd_20}>
+          <Text style={[styles.title, Styles.fw_b]}>{selectedMessage.subject}</Text>
+          <HTML 
+              html={selectedMessage.msgBody}
+              baseFontStyle={styles.desc_text}
+              tagsStyles={{
+                b: {
+                  fontWeight: 'normal'
+                },
+                strong: {
+                  fontWeight: 'normal'
+                }
+              }}
+            />
+        </View>
+      :
+      <>
+        {messagesListData?.length > 0 &&
+            <FlatList refreshControl={<RefreshControl colors={["#9Bd35A", "#689F38"]} refreshing={refreshing}
+                                        onRefresh={() => {
+                                            reInitPages();
+                                        }}/>}
+                    data={messagesListData}
+                    renderItem={_renderPage}
+                    keyExtractor={(item) => item?.msgID}
+                    showsVerticalScrollIndicator={false}
+                    onEndReachedThreshold={0.2}
+                    onEndReached={() => nextPagePages()}
+                    ItemSeparatorComponent={() => null}
+                    ListFooterComponent={endScrollFlag ? <View><ActivityIndicator
+                    style={{paddingBottom: 15, backgroundColor: 'white'}}
+                    size={'large'}
+                    color={'#000000'}
+                    /></View> : null}
+                />
+        }
+        { noDataFoundPage ?
+            <NoDataFoundPage reInitHandler={() => reInitPages()} state={loadingTryAgain} />
+            : null
+        }
+      </>
       }
       <Loading visible={loading} transparent={false}/>
     </View>

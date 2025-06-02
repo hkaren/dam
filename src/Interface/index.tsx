@@ -2,12 +2,13 @@ import { DrawerNavigationProp } from '@react-navigation/drawer';
 import { RouteProp } from '@react-navigation/native';
 
 export type DrawerParamList = {
-  Home: { randomKey: number };
-  Messages: { randomKey: number };
-  GenerateToken: { randomKey: number };
-  Settings: { randomKey: number };
-  About: { randomKey: number };
-  Logout: { randomKey: number };
+  Home: { randomKey?: number, actionType?: string };
+  Messages: { randomKey?: number, actionType?: string };
+  MessagesNew: { randomKey?: number, actionType?: string };
+  GenerateToken: { randomKey?: number, actionType?: string };
+  Settings: { randomKey?: number, actionType?: string };
+  About: { randomKey?: number, actionType?: string };
+  Logout: { randomKey?: number, actionType?: string };
 };
 
 
@@ -90,4 +91,12 @@ export interface NoDataFoundPageProps {
     state?: boolean | false
     hideButton?: boolean,
     containerStyle?: Object,
+}
+
+export interface LinkProps {
+    keyProp?: number | string,
+    title: string,
+    onClickHandler: (e: any) => void,
+    className?: React.CSSProperties[],
+    textClassName?: React.CSSProperties[]
 }

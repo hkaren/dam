@@ -6,7 +6,8 @@ type ButtonProps = {
     state?: boolean,
     onClickHandler?: () => void,
     key? : string,
-    textCssClass?: React.CSSProperties[]
+    textCssClass?: React.CSSProperties[],
+    buttonCssClass?: React.CSSProperties[],
     backgroundColor?: string,
     title?: string,
 } & React.ComponentProps<'button'>
@@ -18,6 +19,7 @@ export const Button = ({
     onClickHandler,
     key,
     textCssClass,
+    buttonCssClass,
     backgroundColor,
     title,
     ...rest
@@ -36,7 +38,7 @@ export const Button = ({
     return (
         <View style={styles.container}>
             { variant === 'general' ? 
-                <TouchableOpacity key={key} disabled={state} style={[Styles.button, buttonColor]} onPress={onClickHandler}>
+                <TouchableOpacity key={key} disabled={state} style={[Styles.button, buttonColor, buttonCssClass]} onPress={onClickHandler}>
                     { state ? 
                         <ActivityIndicator size="small" color="white" style={{marginRight: 5}} />
                         : null
@@ -57,6 +59,5 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
     }
 })

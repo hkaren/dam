@@ -19,7 +19,7 @@ const CustomDrawer = (props: any) => {
     // onChangeSelectTab(menuItem.id)
     // onClose()
     // @ts-ignore
-    props.navigation.navigate(menuItem.navigateTo, { randomKey: Math.random() });
+    props.navigation.navigate(menuItem.navigateTo, { randomKey: Math.random(), actionType: 'nenu' });
   };
 
   const menuArray: MenuItem[] = [

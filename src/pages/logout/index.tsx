@@ -67,10 +67,7 @@ const Logout = ({navigation}: LogoutProps) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((store: any) => store.userInfo);
   const config = useSelector((store: any) => store.config);
-  console.log(userInfo?.account, ' // userInfo');
-  console.log(config, ' // config');
   
-
   useEffect(() => {
     (async () => {
         const { status } = await Location.requestForegroundPermissionsAsync();

@@ -20,10 +20,38 @@ export const Header = (props: MainTabScreenHeaderProps) => {
     };
 
     const openBottomModal = () => {
+        let types = [
+            {key: 'all_messages', title: 'All messages'},
+            {key: 'new_message', title: 'New message'},
+            {key: 'storage_info', title: 'Storage info'},
+        ];
+
         dispatch({
             type: 'SET_CONFIG',
-            payload: {bottomHalfModal: true, bottomHalfModalData: {type: 'header'}}
-        })
+            payload: { bottomHalfModal: true, bottomHalfModalData: {type: types, callbackFunction: openBottomModalCallback, callbackFunctionParams: null} }
+        });
+    };
+
+    const openBottomModalCallback = async (action: string, item: any) => {
+        if (action == 'all_messages') { 
+            allMessages();
+        } else if (action == 'new_message') {
+            newMessage();
+        } else if (action == 'storage_info') {
+            storageInfo();
+        }
+    };
+
+    const allMessages = () => {
+        props.navigation.navigate('Messages', { randomKey: Math.random(), actionType: 'all-messages' });
+    };
+
+    const newMessage = () => {
+        props.navigation.navigate('MessagesNew', {randomKey: Math.random()});
+    };
+
+    const storageInfo = () => {
+        console.log('storageInfo');
     };
 
     const openDrawer = () => {
@@ -53,7 +81,7 @@ export const Header = (props: MainTabScreenHeaderProps) => {
                         <View style={styles.flex_d_row}>
                             <TouchableOpacity style={Styles.IconButton}
                                                 onPress={openBottomModal}>
-                                <SvgComponent name="more"/>
+                                <SvgComponent name="more_vertical"/>
                             </TouchableOpacity>
                             {/* <TouchableOpacity style={Styles.IconButton} onPress={() => openMessenger()}>
                                 <SvgComponent name="message"/>

@@ -4,10 +4,18 @@ import {HeaderProfile} from "../components/headerProfile";
 import {DrawerNavigation} from "./DrawerNavigation";
 import AuthStackNavigation from "./AuthStackNavigation";
 import { NAVIGATOR_STACK_SCREEN_DRAWER } from "../utils/AppConstants";
+import { BottomHalfModal } from "../components/modals/bottomHalfModal";
+import { useDispatch, useSelector } from "react-redux";
+import {useNavigation} from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator();
 
 const StackNavigation: React.FC = () => {
+    const navigation: any = useNavigation();
+    const dispatch = useDispatch();
+    const config = useSelector((store: any) => store.config);
+console.log(config, ' //////// config');
+
   return (
     <>
         <Stack.Navigator
@@ -34,6 +42,16 @@ const StackNavigation: React.FC = () => {
                             headerShown: false
                         }}/> */}
         </Stack.Navigator>
+        <BottomHalfModal
+            isVisible={config.bottomHalfModal}
+            navigation={navigation}
+            onClose={() => {
+            dispatch({
+                type: 'SET_CONFIG',
+                payload: {bottomHalfModal: false, scrollDownUp: 'up'}
+            })
+            }}
+        />
     </>
   );
 };

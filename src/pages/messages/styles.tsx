@@ -25,14 +25,12 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   title: {
-    fontWeight: 'bold',
     fontSize: 16,
     color: '#222',
-    marginBottom: 2,
+    marginTop: 10
   },
   subtitle: {
     color: '#666',
@@ -40,8 +38,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: '#eee',
-    marginHorizontal: 16,
+    backgroundColor: '#eee'
   },
   fab: {
     position: 'absolute',
@@ -54,6 +51,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 6,
+  },
+  desc_cont: {
+    maxHeight: 45,
+  },
+  desc_text: {
+      color: 'black',
+      fontSize: 14,
+      marginBottom: 10,
+      letterSpacing: 0.5
   },
 });
 export default styles;
