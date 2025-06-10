@@ -7,6 +7,13 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20,
       justifyContent: 'center',
     },
+  camera: {
+    flex: 1,
+  },
+  message: {
+    textAlign: 'center',
+    paddingBottom: 10,
+  },
     title: {
       fontSize: 34,
       fontWeight: 'bold',
@@ -34,5 +41,5 @@ const styles = StyleSheet.create({
       fontWeight: '500',
     },
   });
-  
+
   export default styles;

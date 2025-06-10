@@ -7,7 +7,7 @@ import CustomDrawer from '../components/CustomDrawer';
 import About from '../pages/about';
 import GenerateToken from '../pages/generateToken';
 import Messages from '../pages/messages';
-import Settings from '../pages/settings';
+import Settings from '../pages/Settings';
 import MessagesNew from '../pages/messagesNew';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();

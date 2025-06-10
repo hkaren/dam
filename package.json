@@ -18,6 +18,7 @@
     "crypto-js": "^4.2.0",
     "expo": "~53.0.7",
     "expo-application": "^6.1.4",
+    "expo-camera": "^16.1.8",
     "expo-location": "^18.1.4",
     "expo-status-bar": "~2.2.3",
     "react": "19.0.0",
@@ -41,5 +42,6 @@
     "@types/react": "~19.0.10",
     "typescript": "~5.8.3"
   },
-  "private": true
+  "private": true,
+  "packageManager": "yarn@3.6.4+sha512.e70835d4d6d62c07be76b3c1529cb640c7443f0fe434ef4b6478a5a399218cbaf1511b396b3c56eb03bc86424cff2320f6167ad2fde273aa0df6e60b7754029f"
 }

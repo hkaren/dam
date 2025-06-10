@@ -1,1 +1,1 @@
-export {Header} from './header/index';
+export {Header} from './Header';
